@@ -17,4 +17,6 @@ erl_crash.dump
 *.ez
 *.lock
 *.swp
-
+*.env
+test_images/
+.DS_Store

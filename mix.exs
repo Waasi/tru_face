@@ -14,7 +14,7 @@ defmodule TruFace.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger],
+    [applications: [:logger, :httpoison],
      mod: {TruFace, []}]
   end
 
@@ -28,6 +28,6 @@ defmodule TruFace.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [{:httpoison, "~> 0.12"}, {:poison, "~> 3.1"}]
   end
 end
