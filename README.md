@@ -1,4 +1,5 @@
 # TruFace
+[![Build Status](https://travis-ci.org/Waasi/tru_face.svg?branch=master)](https://travis-ci.org/Waasi/tru_face)
 
 This is an Elixir library for [TrueFace AI](https://chui.ai/)
 
