@@ -16,4 +16,11 @@ defmodule TruFace.RequestHelperTest do
   test "parses response" do
     assert {:error, %{reason: "Not Found"}} = RequestHelper.parse_response(%HTTPoison.Response{status_code: 404})
   end
+
+  test "builds payload" do
+    response = 
+      ["one", "two"]
+      |> RequestHelper.build(%{}, 0)
+    assert %{"img0" => "one", "img1" => "two"} = response
+  end
 end

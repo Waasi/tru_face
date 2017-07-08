@@ -25,9 +25,6 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 Remember to add the following:
 
-For testing purposes add a directory with images of a person
-and add the path to an env variable named `TEST_IMAGES_PATH`.
-
 Once you get a TrueFace AI api key add an env variable named `TRUE_FACE_API_KEY`
 with the obtained api key as value.
 

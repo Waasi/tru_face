@@ -9,17 +9,57 @@ defmodule TruFace.RequestHelper do
     [{"Content-Type", "application/json"}, {"x-api-key", api_key()}]
   end
 
-  def parse_response(%HTTPoison.Response{status_code: 201, body: body}) do
-    case Poison.decode(body) do
-      {:ok, json} -> {:ok, json}
+  def parse_response(%HTTPoison.Response{status_code: 200, body: body}) do
+    case Poison.decode(body, keys: :atoms) do
+      {:ok, %{data: %{enrollment_id: id}}} ->
+        {:ok, id}
+      {:ok, %{data: %{collection_id: id}}} ->
+        {:ok, id}
+      {:ok, %{data: %{key: id}}} ->
+        {:ok, id}
+      {:ok, %{data: scores_and_matches}} ->
+        {:ok, avg_score(scores_and_matches)}
       _error -> {:error, %{reason: "Unable to Parse Response"}}
     end
   end
-  def parse_response(%HTTPoison.Response{status_code: code}), do: {:error, error_for(code)}
+  def parse_response(%HTTPoison.Response{status_code: code}) do
+    {:error, error_for(code)}
+  end
+
+  def build([], payload, _), do: payload
+  def build([head|tail], %{}, 0) do
+    build(tail, %{"img0" => head}, 1)
+  end
+  def build([head|tail], payload, index) do
+    new_payload =
+      payload
+      |> Map.merge(%{"img#{index}" => head})
+    build(tail, new_payload, index + 1)
+  end
 
   #####
   # Private API
   #####
+
+  defp avg_score(scores_and_matches) do
+    scores =
+      scores_and_matches
+      |> Enum.filter(&score?/1)
+    scores_sum =
+      scores
+      |> Enum.reduce(0, &accumulate/2)
+    scores_sum / Enum.count(scores)
+  end
+
+  defp accumulate({_, value}, accumulator) do
+    accumulator + value;
+  end
+
+  defp score?({key, _}) do
+    key
+    |> Atom.to_string()
+    |> String.contains?("score")
+  end
 
   defp api_key do
     Application.get_env(:tru_face, :api_key)

@@ -2,16 +2,11 @@ ExUnit.start()
 
 defmodule TestHelper do
   def test_images() do
-    test_images_path()
-    |> File.ls!()
-    |> Enum.map(&read_image/1)
+    ["fhjgvfhjgvfkhsgvdv", "djfhbasjfhbasjdfhb"]
   end
 
   def test_image() do
-    test_images_path()
-    |> File.ls!()
-    |> Enum.at(0)
-    |> read_image()
+    "elfknalfknwlfknwqlfknwqlkf"
   end
 
   def expected_headers do
@@ -23,12 +18,45 @@ defmodule TestHelper do
     "https://api.chui.ai/v1/#{resource}"
   end
 
-  defp read_image(image_path) do
-    "#{test_images_path()}/#{image_path}"
-    |> File.read!()
+  def mocked_enroll do
+    %HTTPoison.Response{
+      status_code: 200,
+      body: Poison.encode!(%{data: %{enrollment_id: "eid"}})
+    }
   end
 
-  defp test_images_path() do
-    Application.get_env(:tru_face, :test_images_path)
+  def mocked_update_enroll do
+    %HTTPoison.Response{
+      status_code: 200,
+      body: Poison.encode!(%{data: %{enrollment_id: "eid"}})
+    }
+  end
+
+  def mocked_create_collection do
+    %HTTPoison.Response{
+      status_code: 200,
+      body: Poison.encode!(%{data: %{collection_id: "cid"}})
+    }
+  end
+
+  def mocked_update_collection do
+    %HTTPoison.Response{
+      status_code: 200,
+      body: Poison.encode!(%{data: %{collection_id: "cid"}})
+    }
+  end
+
+  def mocked_face_match do
+    %HTTPoison.Response{
+      status_code: 200,
+      body: Poison.encode!(%{data: %{emb0_score: 0.9, emb0_match: true, emb1_score: 0.9, emb1_match: true}})
+    }
+  end
+
+  def mocked_face_identity do
+    %HTTPoison.Response{
+      status_code: 200,
+      body: Poison.encode!(%{data: %{name: "Juan Del Pueblo", key: "person_id"}})
+    }
   end
 end
