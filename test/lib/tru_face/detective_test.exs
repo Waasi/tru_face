@@ -55,6 +55,28 @@ defmodule TruFace.DetectiveTest do
     end
   end
 
+  test "trains a collection" do
+    with_mocks([
+      {HTTPoison, [],
+        [post!: fn
+          ("https://api.chui.ai/v1/enroll", _, _, _) -> mocked_enroll()
+          ("https://api.chui.ai/v1/collection", _, _, _) -> mocked_create_collection()
+          ("https://api.chui.ai/v1/train", _, _, _) -> mocked_train_collection()
+        end]
+      },
+      {HTTPoison, [],
+        [put!: fn
+           ("https://api.chui.ai/v1/enroll", _, _, _) -> mocked_update_enroll()
+           ("https://api.chui.ai/v1/collection", _, _, _) -> mocked_update_collection()
+        end]
+      }
+    ]) do
+      {:ok, enrollment_id} = Detective.enroll(test_images())
+      {:ok, collection_id} = Detective.create_collection("test")
+      assert {:ok, ^collection_id} = Detective.update_collection(enrollment_id, collection_id)
+    end
+  end
+
   test "matches a face" do
     with_mocks([
       {HTTPoison, [],

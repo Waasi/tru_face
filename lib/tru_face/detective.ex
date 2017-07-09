@@ -11,8 +11,9 @@ defmodule TruFace.Detective do
       - create_collection!/1
       - update_collection/2
       - update_collection!/2
+      - train/1
       - match?/2
-      - idetity?/2
+      - identity?/2
   """
 
   alias TruFace.RequestHelper
@@ -227,6 +228,29 @@ defmodule TruFace.Detective do
       |> HTTPoison.post!(payload, RequestHelper.headers(), [])
       |> RequestHelper.parse_response()
     response
+  end
+
+  @doc """
+  This function receives a String type collection_id
+  and returns {:ok, "collection_id"} when successful
+  otherwise returns {:error, %{reason: "reason"}}
+
+  ### Example
+      ```iex> TruFace.Detective.train("collection_id")
+         {:ok, "collection_id"}```
+  """
+
+  @spec train(String.t()) :: {:ok, String.t()} | {:error, map()}
+  def train("") do
+    {:error, %{reason: "must include the collection id"}}
+  end
+  def train(collection_id) do
+    payload =
+      %{collection_id: collection_id}
+      |> Poison.encode!()
+    RequestHelper.path_for("train")
+    |> HTTPoison.post!(payload, RequestHelper.headers(), [])
+    |> RequestHelper.parse_response()
   end
 
   @doc """

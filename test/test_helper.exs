@@ -46,6 +46,13 @@ defmodule TestHelper do
     }
   end
 
+  def mocked_train_collection do
+    %HTTPoison.Response{
+      status_code: 200,
+      body: Poison.encode!(%{data: %{collection_id: "cid"}})
+    }
+  end
+
   def mocked_face_match do
     %HTTPoison.Response{
       status_code: 200,
