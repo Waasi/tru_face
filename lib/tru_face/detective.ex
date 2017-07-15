@@ -36,7 +36,6 @@ defmodule TruFace.Detective do
   def enroll(images) do
     payload =
       images
-      |> Enum.map(&Base.encode64/1)
       |> RequestHelper.build(%{}, 0)
       |> Poison.encode!()
     RequestHelper.path_for("enroll")
@@ -61,7 +60,6 @@ defmodule TruFace.Detective do
   def enroll!(images) do
     payload =
       images
-      |> Enum.map(&Base.encode64/1)
       |> RequestHelper.build(%{}, 0)
       |> Poison.encode!()
     {_, response} =
@@ -90,7 +88,6 @@ defmodule TruFace.Detective do
   def update(images, enrollment_id) do
     payload =
       images
-      |> Enum.map(&Base.encode64/1)
       |> RequestHelper.build(%{}, 0)
       |> Map.merge(%{"enrollment_id" => enrollment_id})
       |> Poison.encode!()
@@ -117,7 +114,6 @@ defmodule TruFace.Detective do
   def update!(images, enrollment_id) do
     payload =
       images
-      |> Enum.map(&Base.encode64/1)
       |> RequestHelper.build(%{}, 0)
       |> Map.merge(%{"enrollment_id" => enrollment_id})
       |> Poison.encode!()
@@ -270,9 +266,7 @@ defmodule TruFace.Detective do
     {:error, %{reason: "must include the enrollment_id"}}
   end
   def match?(raw_image, enrollment_id) do
-    image =
-      raw_image
-      |> Base.encode64()
+    image = raw_image
     payload =
       %{img: image, enrollment_id: enrollment_id}
       |> Poison.encode!()
@@ -298,9 +292,7 @@ defmodule TruFace.Detective do
     {:error, %{reason: "must include the collection_id"}}
   end
   def identity?(raw_image, collection_id) do
-    image =
-      raw_image
-      |> Base.encode64()
+    image = raw_image
     payload =
       %{img: image, collection_id: collection_id}
       |> Poison.encode!()

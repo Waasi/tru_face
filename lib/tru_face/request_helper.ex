@@ -11,6 +11,10 @@ defmodule TruFace.RequestHelper do
 
   def parse_response(%HTTPoison.Response{status_code: 200, body: body}) do
     case Poison.decode(body, keys: :atoms) do
+      {:ok, %{success: false, message: error}} ->
+        {:error, %{reason: error}}
+      {:ok, %{message: "no face detected" = error}} ->
+        {:error, %{reason: error}}
       {:ok, %{data: %{enrollment_id: id}}} ->
         {:ok, id}
       {:ok, %{data: %{collection_id: id}}} ->
@@ -27,8 +31,11 @@ defmodule TruFace.RequestHelper do
   end
 
   def build([], payload, _), do: payload
-  def build([head|tail], %{}, 0) do
-    build(tail, %{"img0" => head}, 1)
+  def build([head|tail], body, 0) do
+    payload =
+      body
+      |> Map.merge(%{"img0" => head})
+    build(tail, payload, 1)
   end
   def build([head|tail], payload, index) do
     new_payload =
