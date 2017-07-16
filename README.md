@@ -11,7 +11,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ```elixir
 def deps do
-  [{:tru_face, "~> 0.1.0"}]
+  [{:tru_face, "~> 0.1.1"}]
 end
 ```
 
@@ -30,7 +30,7 @@ with the obtained api key as value.
 
 ## Usage
 
-The full documentation for TruFace can be found [here](https://hexdocs.pm/tru_face/0.1.0/TruFace.Detective.html#create_collection/1)
+The full documentation for TruFace can be found [here](https://hexdocs.pm/tru_face/0.1.1/api-reference.html)
 
 ## Contributing
 

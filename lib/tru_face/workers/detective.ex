@@ -1,4 +1,9 @@
 defmodule TruFace.Workers.Detective do
+  @moduledoc """
+  Detective module provides functions for face detection
+  with a Generic Server behavior.
+  """
+
   use GenServer
 
   alias TruFace.Detective

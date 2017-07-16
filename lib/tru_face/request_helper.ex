@@ -1,4 +1,5 @@
 defmodule TruFace.RequestHelper do
+  @moduledoc false
   @base_url "https://api.chui.ai/v1"
 
   def path_for(resource) do

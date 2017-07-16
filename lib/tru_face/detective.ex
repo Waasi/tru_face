@@ -1,32 +1,16 @@
 defmodule TruFace.Detective do
   @moduledoc """
   Detective module provides functions for face detection.
-
-  ### Functions
-      - enroll/1
-      - enroll!/1
-      - update/2
-      - update!/2
-      - create_collection/1
-      - create_collection!/1
-      - update_collection/2
-      - update_collection!/2
-      - train/1
-      - match?/2
-      - identity?/2
   """
 
   alias TruFace.RequestHelper
 
   @doc """
-  This function receives a list of image binaries and a
-  String type name value, it returns a tuple like
-  {:ok, "enrollment_id"} if it's successful and
-  {:error, %{reason: "reason"}} if it fails.
+  Enrolls a set of images.
 
   ### Example
-      ```iex> TruFace.Detective.enroll([img1, img2, img3], "en1")
-         {:ok, "enrollment_id"}```
+      iex> TruFace.Detective.enroll([img1, img2, img3], "en1")
+      {:ok, "enrollment_id"}
   """
 
   @spec enroll(list(), String.t()) :: {:ok, String.t()} | {:error, map()}
@@ -44,13 +28,11 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives a list of image binaries and
-  a String type name value it returns an "enrollment_id"
-  if it's successful and %{reason: "reason"} if it fails.
+  Enrolls a set of images.
 
   ### Example
-      ```iex> TruFace.Detective.enroll!([img1, img2, img3], "en1")
-         "enrollment_id"```
+      iex> TruFace.Detective.enroll!([img1, img2, img3], "en1")
+      "enrollment_id"
   """
 
   @spec enroll!(list(), String.t()) :: String.t() | map()
@@ -70,15 +52,11 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives a list of image
-  binaries and a enrrollment id. Returns
-  a tuple like {:ok, "enrollment_id"} if it's
-  successful and {:error, %{reason: "reason"}}
-  if it fails.
+  Updates an enrollment with the given set of images.
 
   ### Example
-      ```iex> TruFace.Detective.update([img1, img2, img3], enrollment_id)
-         {:ok, "enrollment_id"}```
+      iex> TruFace.Detective.update([img1, img2, img3], enrollment_id)
+      {:ok, "enrollment_id"}
   """
 
   @spec update(list(), String.t()) :: {:ok, String.t()} | {:error, map()}
@@ -97,14 +75,11 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives a list of image
-  binaries and a enrrollment id. Returns
-  an "enrollment_id" if it's successful
-  and %{reason: "reason"} if it fails.
+  Updates an enrollment with the given set of images.
 
   ### Example
-      ```iex> TruFace.Detective.update!([img1, img2, img3], enrollment_id)
-         "enrollment_id"```
+      iex> TruFace.Detective.update!([img1, img2, img3], enrollment_id)
+      "enrollment_id"
   """
 
   @spec update!(list(), String.t()) :: String.t() | map()
@@ -125,13 +100,11 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives a String type name and
-  returns {:ok, "collection_id"} when successful
-  otherwise returns {:error, %{reason: "reason"}}
+  Creates a named collection to group enrollments.
 
   ### Example
-      ```iex> TruFace.Detective.create_collection("test_collection")
-         {:ok, "collection_id"}```
+      iex> TruFace.Detective.create_collection("test_collection")
+      {:ok, "collection_id"}
   """
 
   @spec create_collection(String.t()) :: {:ok, String.t()} | {:error, map()}
@@ -148,13 +121,11 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives a String type name and
-  returns "collection_id" when successful otherwise
-  returns %{reason: "reason"}
+  Creates a named collection to group enrollments.
 
   ### Example
-      ```iex> TruFace.Detective.create_collection!("test_collection")
-         "collection_id"```
+      iex> TruFace.Detective.create_collection!("test_collection")
+      "collection_id"
   """
 
   @spec create_collection!(String.t()) :: {:ok, String.t()} | {:error, map()}
@@ -173,13 +144,11 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives String type enrollment_id, collection_id
-  Returns {:ok, "collection_id"} when successful otherwise returns
-  {:error, %{reason: "reason"}}
+  Updates a collection by adding an enrollment.
 
   ### Example
-      ```iex> TruFace.Detective.update_collection("enrollment_id", "collection_id", "col1")
-         {:ok, "collection_id"}```
+      iex> TruFace.Detective.update_collection("enrollment_id", "collection_id", "col1")
+      {:ok, "collection_id"}
   """
 
   @spec update_collection(String.t(), String.t()) :: {:ok, String.t()} | {:error, map()}
@@ -199,13 +168,11 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives String type enrollment_id, a collection_id and
-  Returns "collection_id" when successful otherwise %{reason: "reason"}
-  when unsuccessful.
+  Updates a collection by adding an enrollment.
 
   ### Example
-      ```iex> TruFace.Detective.update_collection!("enrollment_id", "collection_id", "col1")
-         "collection_id"```
+      iex> TruFace.Detective.update_collection!("enrollment_id", "collection_id", "col1")
+      "collection_id"
   """
 
   @spec update_collection!(String.t(), String.t()) :: String.t() | map()
@@ -227,13 +194,11 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives a String type collection_id
-  and returns {:ok, "collection_id"} when successful
-  otherwise returns {:error, %{reason: "reason"}}
+  Triggers training for the classifier of a collection.
 
   ### Example
-      ```iex> TruFace.Detective.train("collection_id")
-         {:ok, "collection_id"}```
+      iex> TruFace.Detective.train("collection_id")
+      {:ok, "collection_id"}
   """
 
   @spec train(String.t()) :: {:ok, String.t()} | {:error, map()}
@@ -250,15 +215,11 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives an image binary and an
-  enrollment_id of String type. Returns {:ok, n}
-  where n is the avarage score of the image for
-  the given enrollment_id. Otherwise it returns
-  {:error, %{reason: "reason"}}
+  Checks if an image matches an image in an enrollment.
 
   ### Example
-      ```iex> TruFace.Detective.create_collection(image_binary, "enrollment_id")
-         {:ok, 0.7}```
+      iex> TruFace.Detective.create_collection(image_binary, "enrollment_id")
+      {:ok, 0.7}
   """
 
   @spec match?(binary(), String.t()) :: {:ok, float()} | {:error, map()}
@@ -276,15 +237,11 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives an image binary and an
-  collection_id of String type. Returns {:ok, id}
-  where id is the id of the person identified in
-  the given image at a given collection. Otherwise
-  it returns {:error, %{reason: "reason"}}
+  Checks if an image matches an enrollment in the collection.
 
   ### Example
-      ```iex> TruFace.Detective.identity?(image_binary, "collection_id")
-         {:ok, "person_id"}```
+      iex> TruFace.Detective.identity?(image_binary, "collection_id")
+      {:ok, "person_id"}
   """
 
   @spec match?(binary(), String.t()) :: {:ok, String.t()} | {:error, map()}
