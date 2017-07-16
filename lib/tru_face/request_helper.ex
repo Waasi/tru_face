@@ -13,7 +13,7 @@ defmodule TruFace.RequestHelper do
     case Poison.decode(body, keys: :atoms) do
       {:ok, %{success: false, message: error}} ->
         {:error, %{reason: error}}
-      {:ok, %{message: "no face detected" = error}} ->
+      {:ok, %{data: "no face detected" = error}} ->
         {:error, %{reason: error}}
       {:ok, %{data: %{enrollment_id: id}}} ->
         {:ok, id}

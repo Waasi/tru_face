@@ -5,7 +5,7 @@ defmodule TruFace do
     import Supervisor.Spec, warn: false
 
     children = [
-      # worker(TruFace.Worker, [arg1, arg2, arg3]),
+      worker(TruFace.Workers.Detective, []),
     ]
 
     opts = [strategy: :one_for_one, name: TruFace.Supervisor]

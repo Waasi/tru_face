@@ -11,7 +11,7 @@ defmodule TruFace.DetectiveTest do
       {HTTPoison, [], [post!: fn(_, _, _, _) -> mocked_enroll() end]},
       {HTTPoison, [], [put!: fn(_, _, _, _) -> mocked_update_enroll() end]}
     ]) do
-      Detective.enroll(test_images())
+      Detective.enroll(test_images(), "test1")
     end
   end
 
@@ -20,7 +20,7 @@ defmodule TruFace.DetectiveTest do
       {HTTPoison, [], [post!: fn(_, _, _, _) -> mocked_enroll() end]},
       {HTTPoison, [], [put!: fn(_, _, _, _) -> mocked_update_enroll() end]}
     ]) do
-      {:ok, enrollment_id} = Detective.enroll(test_images())
+      {:ok, enrollment_id} = Detective.enroll(test_images(), "test1")
       assert {:ok, ^enrollment_id} = Detective.update(test_images(), enrollment_id)
     end
   end
@@ -49,7 +49,7 @@ defmodule TruFace.DetectiveTest do
         end]
       }
     ]) do
-      {:ok, enrollment_id} = Detective.enroll(test_images())
+      {:ok, enrollment_id} = Detective.enroll(test_images(), "test1")
       {:ok, collection_id} = Detective.create_collection("test")
       assert {:ok, ^collection_id} = Detective.update_collection(enrollment_id, collection_id)
     end
@@ -71,7 +71,7 @@ defmodule TruFace.DetectiveTest do
         end]
       }
     ]) do
-      {:ok, enrollment_id} = Detective.enroll(test_images())
+      {:ok, enrollment_id} = Detective.enroll(test_images(), "test1")
       {:ok, collection_id} = Detective.create_collection("test")
       assert {:ok, ^collection_id} = Detective.update_collection(enrollment_id, collection_id)
     end
@@ -93,7 +93,7 @@ defmodule TruFace.DetectiveTest do
         end]
       }
     ]) do
-      {:ok, enrollment_id} = Detective.enroll(test_images())
+      {:ok, enrollment_id} = Detective.enroll(test_images(), "test1")
       {:ok, collection_id} = Detective.create_collection("test")
       {:ok, _} = Detective.update_collection(enrollment_id, collection_id)
       {:ok, 0.9} = Detective.match?(test_image(), enrollment_id)
@@ -116,7 +116,7 @@ defmodule TruFace.DetectiveTest do
         end]
       }
     ]) do
-      {:ok, enrollment_id} = Detective.enroll(test_images())
+      {:ok, enrollment_id} = Detective.enroll(test_images(), "test1")
       {:ok, collection_id} = Detective.create_collection("test")
       {:ok, _} = Detective.update_collection(enrollment_id, collection_id)
       {:ok, "person_id"} = Detective.identity?(test_image(), collection_id)

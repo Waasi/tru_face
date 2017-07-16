@@ -19,24 +19,24 @@ defmodule TruFace.Detective do
   alias TruFace.RequestHelper
 
   @doc """
-  This function receives a list of image binaries
-  it returns a tuple like {:ok, "enrollment_id"} if it's
-  successful and {:error, %{reason: "reason"}} if it
-  fails.
+  This function receives a list of image binaries and a
+  String type name value, it returns a tuple like
+  {:ok, "enrollment_id"} if it's successful and
+  {:error, %{reason: "reason"}} if it fails.
 
   ### Example
-      ```iex> TruFace.Detective.enroll([img1, img2, img3])
+      ```iex> TruFace.Detective.enroll([img1, img2, img3], "en1")
          {:ok, "enrollment_id"}```
   """
 
-  @spec enroll(list()) :: {:ok, String.t()} | {:error, map()}
-  def enroll([]) do
+  @spec enroll(list(), String.t()) :: {:ok, String.t()} | {:error, map()}
+  def enroll([], _) do
     {:error, %{reason: "must include the array of images"}}
   end
-  def enroll(images) do
+  def enroll(images, name) do
     payload =
       images
-      |> RequestHelper.build(%{}, 0)
+      |> RequestHelper.build(%{name: name}, 0)
       |> Poison.encode!()
     RequestHelper.path_for("enroll")
     |> HTTPoison.post!(payload, RequestHelper.headers(), [])
@@ -44,23 +44,23 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives a list of image binaries
-  it returns an "enrollment_id" if it's successful
-  and %{reason: "reason"} if it fails.
+  This function receives a list of image binaries and
+  a String type name value it returns an "enrollment_id"
+  if it's successful and %{reason: "reason"} if it fails.
 
   ### Example
-      ```iex> TruFace.Detective.enroll!([img1, img2, img3])
+      ```iex> TruFace.Detective.enroll!([img1, img2, img3], "en1")
          "enrollment_id"```
   """
 
-  @spec enroll!(list()) :: String.t() | map()
-  def enroll!([]) do
+  @spec enroll!(list(), String.t()) :: String.t() | map()
+  def enroll!([], _) do
     %{reason: "must include the array of images"}
   end
-  def enroll!(images) do
+  def enroll!(images, name) do
     payload =
       images
-      |> RequestHelper.build(%{}, 0)
+      |> RequestHelper.build(%{name: name}, 0)
       |> Poison.encode!()
     {_, response} =
       RequestHelper.path_for("enroll")
@@ -81,7 +81,7 @@ defmodule TruFace.Detective do
          {:ok, "enrollment_id"}```
   """
 
-  @spec enroll(list()) :: {:ok, String.t()} | {:error, map()}
+  @spec update(list(), String.t()) :: {:ok, String.t()} | {:error, map()}
   def update([], _) do
     {:error, %{reason: "must include the array of images"}}
   end
@@ -107,7 +107,7 @@ defmodule TruFace.Detective do
          "enrollment_id"```
   """
 
-  @spec enroll!(list()) :: String.t() | map()
+  @spec update!(list(), String.t()) :: String.t() | map()
   def update!([], _) do
     %{reason: "must include the array of images"}
   end
@@ -173,12 +173,12 @@ defmodule TruFace.Detective do
   end
 
   @doc """
-  This function receives String type enrollment_id and collection_id.
+  This function receives String type enrollment_id, collection_id
   Returns {:ok, "collection_id"} when successful otherwise returns
   {:error, %{reason: "reason"}}
 
   ### Example
-      ```iex> TruFace.Detective.update_collection("enrollment_id", "collection_id")
+      ```iex> TruFace.Detective.update_collection("enrollment_id", "collection_id", "col1")
          {:ok, "collection_id"}```
   """
 
@@ -194,17 +194,17 @@ defmodule TruFace.Detective do
       %{enrollment_id: enrollment_id, collection_id: collection_id}
       |> Poison.encode!()
     RequestHelper.path_for("collection")
-    |> HTTPoison.post!(payload, RequestHelper.headers(), [])
+    |> HTTPoison.put!(payload, RequestHelper.headers(), [])
     |> RequestHelper.parse_response()
   end
 
   @doc """
-  This function receives String type enrollment_id and collection_id.
+  This function receives String type enrollment_id, a collection_id and
   Returns "collection_id" when successful otherwise %{reason: "reason"}
   when unsuccessful.
 
   ### Example
-      ```iex> TruFace.Detective.update_collection!("enrollment_id", "collection_id")
+      ```iex> TruFace.Detective.update_collection!("enrollment_id", "collection_id", "col1")
          "collection_id"```
   """
 
@@ -221,7 +221,7 @@ defmodule TruFace.Detective do
       |> Poison.encode!()
     {_, response} =
       RequestHelper.path_for("collection")
-      |> HTTPoison.post!(payload, RequestHelper.headers(), [])
+      |> HTTPoison.put!(payload, RequestHelper.headers(), [])
       |> RequestHelper.parse_response()
     response
   end
