@@ -7,21 +7,21 @@ This is an Elixir library for [TrueFace AI](https://chui.ai/)
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
 
-  1. Add `tru_face` to your list of dependencies in `mix.exs`:
+1. Add `tru_face` to your list of dependencies in `mix.exs`:
 
-    ```elixir
-    def deps do
-      [{:tru_face, "~> 0.1.0"}]
-    end
-    ```
+```elixir
+def deps do
+  [{:tru_face, "~> 0.1.0"}]
+end
+```
 
-  2. Ensure `tru_face` is started before your application:
+2. Ensure `tru_face` is started before your application:
 
-    ```elixir
-    def application do
-      [applications: [:tru_face]]
-    end
-    ```
+```elixir
+def application do
+  [applications: [:tru_face]]
+end
+```
 
 Remember to add the following:
 
@@ -30,7 +30,7 @@ with the obtained api key as value.
 
 ## Usage
 
-The full documentation for TruFace can be found [here](here)
+The full documentation for TruFace can be found [here](https://hexdocs.pm/tru_face/0.1.0/TruFace.Detective.html#create_collection/1)
 
 ## Contributing
 
