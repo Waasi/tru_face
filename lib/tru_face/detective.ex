@@ -218,7 +218,7 @@ defmodule TruFace.Detective do
   Checks if an image matches an image in an enrollment.
 
   ### Example
-      iex> TruFace.Detective.create_collection(image_binary, "enrollment_id")
+      iex> TruFace.Detective.match?(image_binary, "enrollment_id")
       {:ok, 0.7}
   """
 
@@ -229,7 +229,7 @@ defmodule TruFace.Detective do
   def match?(raw_image, enrollment_id) do
     image = raw_image
     payload =
-      %{img: image, enrollment_id: enrollment_id}
+      %{img: image, id: enrollment_id}
       |> Poison.encode!()
     RequestHelper.path_for("match")
     |> HTTPoison.post!(payload, RequestHelper.headers(), [])
